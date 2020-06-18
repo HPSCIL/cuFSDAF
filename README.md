@@ -72,38 +72,35 @@ Example (# for comments):
 >
 >\# Window's size for searching similar pixels
 > W = 20
-
->\# Number of similar pixels for mitigating errors using neighborhood
-> NUM_SIMILAR_PIXEL = 20
 >
->\# Number of purest coarse pixels in each class for unmixing analysis
-> NUM_PURE = 100
+>\# Number of similar pixels for mitigating errors using neighborhood  
+> NUM_SIMILAR_PIXEL = 20  
+>
+>\# Number of purest coarse pixels in each class for unmixing analysis  
+> NUM_PURE = 100  
 >
 >\# Minimum of Digital Number (DN) value, used for correcting exterme values  
-
 > DN_MIN = 0.0
 >
 >\# Maximum of Digital Number (DN) value, used for correcting exterme values  
-
-> DN_MAX = 10000.0
+> DN_MAX = 10000.0  
 >
->\# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16  
-
+>\# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16    
 > SCALE_FACTOR = 16
 >
->\# The value of background pixels
-> BACKGROUND = 0
+>\# The value of background pixels  
+> BACKGROUND = 0  
 >
->\# Which band with value = BACKGROUND indicating background pixels
-> BACKGROUND_BAND = 1
+>\# Which band with value = BACKGROUND indicating background pixels  
+> BACKGROUND_BAND = 1  
 >
->\# Search radius for IDW interpolator, recommend at least 2*SCALE_FACTOR
-> IDW_SEARCH_RADIUS = 32
+>\# Search radius for IDW interpolator, recommend at least 2*SCALE_FACTOR  
+> IDW_SEARCH_RADIUS = 32  
 >
->\# Power to calculate the weight of known points in IDW, if 2, Weight = 1/Distance^2
-> IDW_POWER = 2
+>\# Power to calculate the weight of known points in IDW, if 2, Weight = 1/Distance^2  
+> IDW_POWER = 2  
 >
->cuFSDAF_PARAMETER_END
+>cuFSDAF_PARAMETER_END  
 
 + The program runs as a command line. You may use the Command (i.e., cmd) in Windows, or a terminal in Linux/Unix. 
    - For the Windows version:    
