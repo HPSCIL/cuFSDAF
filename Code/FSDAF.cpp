@@ -201,7 +201,7 @@ int writeImg(char InputC2[], short* Img)
 	char projref[2048];
 
 	ImgBef->GetGeoTransform(geoTransform);
-	const char *sProRef = ImgBef->GetProjectionRef();	//获取投影信息
+	const char *sProRef = ImgBef->GetProjectionRef();	//禄帽脠隆脥露脫掳脨脜脧垄
 	strcpy(projref, sProRef);
 	GDALClose(ImgBef);
 	ImgBef = NULL;
