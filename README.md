@@ -56,19 +56,19 @@ Usage
 + A text file must be manually created to specify the input and output images, and other parameters for the ESTARFM model.  
 Example (# for comments):
 
->cuFSDAF_PARAMETER_START
+>cuFSDAF_PARAMETER_START  
 >
->\# The input fine image at t1
-> IN_F1_NAME = F:\\Datasets\\Daxing_Test\\L-2019-6-14.tif
+>\# The input fine image at t1  
+> IN_F1_NAME = F:\\Datasets\\Daxing_Test\\L-2019-6-14.tif  
 >
->\# The input coarse image at t1
-> IN_C1_NAME = F:\\Datasets\\Daxing_Test\\M-2019-6-14.tif
+>\# The input coarse image at t1  
+> IN_C1_NAME = F:\\Datasets\\Daxing_Test\\M-2019-6-14.tif  
 >
->\# The input coarse image at t2
-> IN_C2_NAME = F:\\Datasets\\Daxing_Test\\M-2019-8-17.tif
+>\# The input coarse image at t2  
+> IN_C2_NAME = F:\\Datasets\\Daxing_Test\\M-2019-8-17.tif  
 >
->\# The classified image for the fine image at t1
-> IN_F1_CLASS_NAME = F:\\Datasets\\Daxing_Test\\class
+>\# The classified image for the fine image at t1  
+> IN_F1_CLASS_NAME = F:\\Datasets\\Daxing_Test\\class  
 >
 >\# Window's size for searching similar pixels
 > W = 20
@@ -79,13 +79,16 @@ Example (# for comments):
 >\# Number of purest coarse pixels in each class for unmixing analysis
 > NUM_PURE = 100
 >
->\# Minimum of Digital Number (DN) value, used for correcting exterme values
+>\# Minimum of Digital Number (DN) value, used for correcting exterme values  
+
 > DN_MIN = 0.0
 >
->\# Maximum of Digital Number (DN) value, used for correcting exterme values
+>\# Maximum of Digital Number (DN) value, used for correcting exterme values  
+
 > DN_MAX = 10000.0
 >
->\# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16
+>\# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16  
+
 > SCALE_FACTOR = 16
 >
 >\# The value of background pixels
