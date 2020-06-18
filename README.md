@@ -10,7 +10,7 @@ To overcome the computational barrier and modify the accuracy loss, we designed 
 
 Key features of cuFSDAF:
 ========
-+ Requires only one pair of Landsat-MODIS images
++ Requires only one pair of Coarse-Fine images
 + Decomposes input images adaptively when the size of images exceeds the GPU’s memory
 + Supports a wide range of CUDA-enabled GPUs (https://developer.nvidia.com/cuda-gpus)
 + Supports a wide range of image formats (see http://gdal.org/formats_list.html)
@@ -18,7 +18,7 @@ Key features of cuFSDAF:
 
 References
 ========
-+ Zhu, X., E. H. Helmer, F. Gao, D. Liu, J. Chen, and M. A. Lefsky, 2016, A flexible spatiotemporal method for fusing satellite images with different resolutions: Remote Sensing of Environment, v. 172, p. 165-177.
++ Zhu, X. et al., 2016. A flexible spatiotemporal method for fusing satellite images with different resolutions. Remote Sensing of Environment, 172: 165-177.  
 
 To Cite cuFSDAF in Publications
 ========
@@ -53,7 +53,7 @@ Usage
   - the same spatial resolution (i.e., Landsat resolution --- 30m)
   - the same image size (i.e., numbers of rows and columns)
   - the same map projection
-+ A text file must be manually created to specify the input and output images, and other parameters for the ESTARFM model.  
++ A text file must be manually created to specify input images, and other parameters for the cuFSDAF model.  
 Example (# for comments):
 
 >cuFSDAF_PARAMETER_START  
