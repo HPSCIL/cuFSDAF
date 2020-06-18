@@ -1,0 +1,58 @@
+cuFSDAF_PARAMETER_START
+
+# The input fine image at t1
+#  IN_F1_NAME = F:\\Datasets\\Daxing_Test\\L-2019-6-14.tif
+#  IN_F1_NAME = F:\\Datasets\\AHB_Test\\L_2018-3-25_4bands.tif 
+  IN_F1_NAME = F:\\Datasets\\Tianjin_Test\\L-2018-10-1_4bands.tif 
+
+
+# The input coarse image at t1
+#  IN_C1_NAME = F:\\Datasets\\Daxing_Test\\M-2019-6-14.tif
+#  IN_C1_NAME = F:\\Datasets\\AHB_Test\\M_2018-3-25_4bands.tif 
+  IN_C1_NAME = F:\\Datasets\\Tianjin_Test\\M-2018-10-1_4bands.tif 
+
+
+# The input coarse image at t2
+#  IN_C2_NAME = F:\\Datasets\\Daxing_Test\\M-2019-8-17.tif
+#  IN_C2_NAME = F:\\Datasets\\AHB_Test\\M_2018-5-12_4bands.tif 
+  IN_C2_NAME = F:\\Datasets\\Tianjin_Test\\M-2018-12-4_4bands.tif 
+
+
+# The classified image for the fine image at t1
+#  IN_F1_CLASS_NAME = F:\\Datasets\\Daxing_Test\\class
+#  IN_F1_CLASS_NAME = F:\\Datasets\\AHB_Test\\class_AHB_180325
+  IN_F1_CLASS_NAME = F:\\Datasets\\Tianjin_Test\\class
+
+
+
+# Window's size for searching similar pixels
+ W = 20
+
+# Number of similar pixels for mitigating errors using neighborhood
+ NUM_SIMILAR_PIXEL = 20
+
+# Number of purest coarse pixels in each class for unmixing analysis
+ NUM_PURE = 100
+
+# Minimum of Digital Number (DN) value, used for correcting exterme values
+ DN_MIN = 0.0
+
+# Maximum of Digital Number (DN) value, used for correcting exterme values
+ DN_MAX = 10000.0
+
+# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16
+ SCALE_FACTOR = 16
+
+#The value of background pixels
+ BACKGROUND = 0
+
+# Which band with value = BACKGROUND indicating background pixels
+ BACKGROUND_BAND = 1
+
+# Search radius for IDW interpolator, recommend at least 2*SCALE_FACTOR
+ IDW_SEARCH_RADIUS = 32
+
+# Power of distance in IDW, recommend 1-3
+ IDW_POWER = 2
+
+cuFSDAF_PARAMETER_END
