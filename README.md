@@ -1,0 +1,2 @@
+# cuFSDAF
+cuFSDAF is an enhanced  FSDAF algorithm parallelized using GPUs. In cuFSDAF, the TPS interpolator is replaced by a modified Inverse Distance Weighted (IDW) interpolator. Besides, computationally intensive procedures are parallelized using the Compute Unified Device Architecture (CUDA), a parallel computing framework for GPUs. Moreover, an adaptive domain-decomposition method is developed to adjust the size of sub-domains according to hardware properties adaptively and ensure the accuracy at the edges of sub-domains. 
