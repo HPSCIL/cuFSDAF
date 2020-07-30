@@ -23,7 +23,7 @@ References
 To Cite cuFSDAF in Publications
 ========
 + A paper describing cuFSDAF will be submitted to a scientific journal for publication soon
-+ For now, you may just cite the URL of the source codes of cuESTARFM (https://github.com/HPSCIL/cuFSDAF) in your publications
++ For now, you may just cite the URL of the source codes of cuFSDAF (https://github.com/HPSCIL/cuFSDAF) in your publications
 
 Compilation
 ========
@@ -36,16 +36,24 @@ Compilation
 
 + For the Windows operating system (using MS Visual Studio 2017 as an example)
   1. Create a project that uses the CUDA runtime
-  1. Open all the source codes in VS 2017
-  2. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and alglib (e.g., C:\GDAL\include\)
-  3. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL and alglib (e.g., C:\GDAL\lib\)
-  4. Click menu Build -> Build Solution  
+  2. Open all the source codes in VS 2017
+  3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and alglib (e.g., C:\GDAL\include\)
+  4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL and alglib (e.g., C:\GDAL\lib\)
+  5. Click menu Build -> Build Solution  
   Once successfully compiled, an executable file, cuFSDAF.exe, is created.
 + For the Linux/Unix operating system (using the CUDA compiler --- nvcc)  
-In a Linux/Unix terminal, type in: 
-  - $ cd /the-directory-of-source-codes/
-  - $ nvcc -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib
-  Once successfully compiled, an executable file, cuFSDAF, is created.
+  In a Linux/Unix terminal, type in: 
+  ```
+  - $ cd /the-directory-of-your-source-codes/
+  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib
+  ```
+  If your compiler fail to find CUDA/GDAL/ALGLIB, you may add their include path and library path (e.g. /path-of-gdal).
+  ```
+  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib -L /path-of-gdal/lib -I /path-of-gdal/include
+  ```
+  Once successfully compiled, an executable file, cuFSDAF, is created.  
+  Note: You may compile alglib firstly if it has not been compiled. When compiling the alglib library, name the library file as "libalglib.a". If not, remember to modify "-lalglib" in the above command.
+
 
 Usage 
 ========
