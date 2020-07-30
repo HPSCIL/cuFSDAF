@@ -4,14 +4,15 @@ Version 1.0
 
 Overview
 ========
-Historical remote sensed images have either lower spatial resolution or lower temporal resolution limited by hardware technology and atmospheric conditions. Spatiotemporal data fusion algorithms provide feasible ways to produce historical images with both high spatial resolution and high temporal resolution. The Flexible Spatiotemporal DAta Fusion (FSDAF) developed by Zhu et al. (2016) is a  spatiotemporal data fusion algorithm suitable for heterogeneous landscapes and captures land cover changes. However, the extensive computational complexity of FSDAF prevents it from being applied in mass production. Besides, the domain-decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to insufficient consideration of edge effects.
+Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and thin plate spline (TPS) interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt landcover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. In addition, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects. In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by a modified inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size. Experiments showed that, while maintaining accuracy, cuFSDAF reduced computing time significantly and achieved speed-ups of 115.2–133.9 over the IDL-implemented FSDAF, and speed-ups of 75.5–81.8 over the C++-implemented FSDAF. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics. 
 
-To overcome the computational barrier and modify the accuracy loss, we designed and implemented an enhanced FSDAF algorithm parallelized using GPUs, named cuFSDAF.  Compared with FSDAF, cuFSDAF greatly reduced the computing time while maintaining the accuracy. Experiments showed that cuFSDAF achieved a speedup of 27.8 using a Nvidia Geforce 1050 (Notebook) GPU compared with a sequential C++ FSDAF algorithm running on an Intel Core I5-7400 CPU.
 
 Key features of cuFSDAF:
 ========
 + Requires only one pair of Coarse-Fine images
 + Decomposes input images adaptively when the size of images exceeds the GPU’s memory
++ Proposes a modified IDW interpolator for cuFSDAF
++ Improves fusion accuracy at the edges of sub-domains
 + Supports a wide range of CUDA-enabled GPUs (https://developer.nvidia.com/cuda-gpus)
 + Supports a wide range of image formats (see http://gdal.org/formats_list.html)
 + Supports both Windows and Linux/Unix operating systems
@@ -23,7 +24,8 @@ References
 To Cite cuFSDAF in Publications
 ========
 + A paper describing cuFSDAF will be submitted to a scientific journal for publication soon
-+ For now, you may just cite the URL of the source codes of cuFSDAF (https://github.com/HPSCIL/cuFSDAF) in your publications
++ For now, you may just cite the URL of the source codes of cuFSDAF (https://github.com/HPSCIL/cuFSDAF) in your publications  
++ You may contact the e-mail <ghcug14@cug.edu.cn> if you have further questions.
 
 Compilation
 ========
@@ -39,7 +41,8 @@ Compilation
   2. Open all the source codes in VS 2017
   3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and alglib (e.g., C:\GDAL\include\)
   4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL and alglib (e.g., C:\GDAL\lib\)
-  5. Click menu Build -> Build Solution  
+  5. Click menu Project -> Properties -> Link -> Input, and add .lib files of GDAL and alglib (e.g., C:\GDAL\lib\)
+  6. Click menu Build -> Build Solution  
   Once successfully compiled, an executable file, cuFSDAF.exe, is created.
 + For the Linux/Unix operating system (using the CUDA compiler --- nvcc)  
   In a Linux/Unix terminal, type in: 
@@ -117,3 +120,5 @@ Example (# for comments):
    $ ./cuFSDAF parameters.txt 
 
 + Note: The computational performance of cuFSDAF largely depends on the GPU. The more powerful is the GPU, the better performance. 
+
+
