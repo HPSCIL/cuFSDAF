@@ -1,12 +1,12 @@
 
-#include<algorithm>
-#include<fstream>
+#include <algorithm>
+#include <fstream>
 #include "gdal_priv.h"
 #include "ogr_core.h"
 #include "ogr_spatialref.h"
-#include"dataanalysis.h"
+#include "dataanalysis.h"
 
-#include"FSDAF.h"
+#include "FSDAF.h"
 
 
 int getPerPixSize(size_t &mnDatalength, GDALDataType datatype)
@@ -136,7 +136,7 @@ double stddev(double *dif, int a_size)
 	return result;
 }
 
-/* Read size and projection information of input fine image at t1 */
+/* Read size and projection information of image InputF1 */
 int readImgSize(char InputF1[], size_t &ns, size_t &nl, size_t &nb)
 {
 	GDALAllRegister();
@@ -144,16 +144,14 @@ int readImgSize(char InputF1[], size_t &ns, size_t &nl, size_t &nb)
 	GDALDataset *ImgBef = (GDALDataset*)GDALOpen(InputF1, GA_ReadOnly);
 	if (ImgBef == NULL)
 	{
-		printf("load error! The file name may be wrong.\n");
+		printf("load error! The file name \" %s \" may be wrong.\n", InputF1[]);
 		exit(0);
 	}
-	ns = ImgBef->GetRasterXSize();						//samples of each line
-	nl = ImgBef->GetRasterYSize();						//lines of fineImg1
-	nb = ImgBef->GetRasterCount();						//band number
-
+	ns = ImgBef->GetRasterXSize();			//samples of each line
+	nl = ImgBef->GetRasterYSize();			//number of lines
+	nb = ImgBef->GetRasterCount();			//band number
 	GDALClose(ImgBef);
 	ImgBef = NULL;
-
 	return 0;
 }
 
@@ -193,7 +191,6 @@ int writeImg(char InputC2[], short* Img)
 	size_t ns = ImgBef->GetRasterXSize();
 	size_t nl = ImgBef->GetRasterYSize();
 	size_t nb = ImgBef->GetRasterCount();
-
 	double* fNoDataV = new double[nb]();
 	for (size_t i = 0; i < nb; i++)
 		fNoDataV[i] = ImgBef->GetRasterBand(i + 1)->GetNoDataValue();
@@ -201,7 +198,7 @@ int writeImg(char InputC2[], short* Img)
 	char projref[2048];
 
 	ImgBef->GetGeoTransform(geoTransform);
-	const char *sProRef = ImgBef->GetProjectionRef();	//»ñÈ¡Í¶Ó°ÐÅÏ¢
+	const char *sProRef = ImgBef->GetProjectionRef();
 	strcpy(projref, sProRef);
 	GDALClose(ImgBef);
 	ImgBef = NULL;

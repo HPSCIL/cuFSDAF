@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <stdio.h>
 
 #include "cuda_runtime.h"
@@ -375,7 +375,6 @@ int cuFinalCalculation(parameter* p1, float* fine2, float *FineImg1, float* Coar
 	size_t nThread = dimGrid.x * dimBlock.x;				//size of 1 cycle
 	size_t nWindowSize = (w + 1 + w) * (w + 1 + w);			//size of window, and w is the length of the searching window
 
-
 	size_t *col_wind = new size_t[(w + 1) * (w + 1) * (w + 1 + w) * (w + 1 + w)]();
 	size_t *row_wind = new size_t[(w + 1) * (w + 1) * (w + 1 + w) * (w + 1 + w)]();
 	for (size_t i = 0; i < w + 1; i++)
@@ -415,11 +414,9 @@ int cuFinalCalculation(parameter* p1, float* fine2, float *FineImg1, float* Coar
 	cudaMalloc((void**)&CoarseImg2_d, sizeof(float) * imgSize);
 	cudaMalloc((void**)&change_21_d, sizeof(float) * imgSize);
 	cudaMalloc((void**)&similar_th_d, sizeof(float) * imgSize);
-
 	cudaMalloc((void**)&D_D_all_d, sizeof(float) * nWindowSize);
 	cudaMalloc((void**)&col_wind_d, sizeof(size_t) * (w + 1) * (w + 1) * nWindowSize);
 	cudaMalloc((void**)&row_wind_d, sizeof(size_t) * (w + 1) * (w + 1) * nWindowSize);
-
 	cudaMalloc((void**)&positionCand_orderDis_d, sizeof(size_t) * nWindowSize * nThread);
 	cudaMalloc((void**)&mmap_order_dis_d, sizeof(float) * nWindowSize * nThread);
 	cudaMalloc((void**)&D_D_cand_d, sizeof(double) * p1->num_similar_pixel * nThread);
@@ -432,11 +429,9 @@ int cuFinalCalculation(parameter* p1, float* fine2, float *FineImg1, float* Coar
 	cudaMemcpy(CoarseImg2_d, CoarseImg2, sizeof(float) * imgSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(change_21_d, change_21, sizeof(float) * imgSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(similar_th_d, similar_th, sizeof(float) * imgSize, cudaMemcpyHostToDevice);
-
 	cudaMemcpy(D_D_all_d, D_D_all, sizeof(float) * nWindowSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(col_wind_d, col_wind, sizeof(size_t) * (w + 1) * (w + 1) * nWindowSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(row_wind_d, row_wind, sizeof(size_t) * (w + 1) * (w + 1) * nWindowSize, cudaMemcpyHostToDevice);
-
 
 	for (size_t iCycle = 0; iCycle * dimGrid.x * dimBlock.x < ns_block * nl_block; iCycle++)
 	{

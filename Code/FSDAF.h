@@ -39,7 +39,7 @@ int resultSummary(int ns, int nl, int nb, int iblock, int* location_block, int l
 
 int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock, int* location_block, int location_block_neighbor[4], float* fineImg2_block);
 
-/* CUDA version of some steps */
+/* CUDA version of parallel steps */
 int getBlockLine(parameter* p1, int &nL, int ns, int nb, int num_similar_pixel);
 
 int cuGetHetIndex(parameter* p1, int scale_d, int ns_block, int nl_block, short* L1_class, float* het_index);
