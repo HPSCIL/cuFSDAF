@@ -1,29 +1,16 @@
 cuFSDAF_PARAMETER_START
 
 # The input fine image at t1
-#  IN_F1_NAME = F:\\Testdata\\Daxing\\L-2019-6-14.tif
-#  IN_F1_NAME = F:\\Testdata\\AHB\\L_2018-3-25_4bands.tif 
-  IN_F1_NAME = F:\\Testdata\\Tianjin\\L-2018-10-1_4bands.tif 
-
+#  IN_F1_NAME = D:\\Testdata\\Daxing\\L-2019-6-14.tif
 
 # The input coarse image at t1
-#  IN_C1_NAME = F:\\Testdata\\Daxing\\M-2019-6-14.tif
-#  IN_C1_NAME = F:\\Testdata\\AHB\\M_2018-3-25_4bands.tif 
-  IN_C1_NAME = F:\\Testdata\\Tianjin\\M-2018-10-1_4bands.tif 
-
+#  IN_C1_NAME = D:\\Testdata\\Daxing\\M-2019-6-14.tif
 
 # The input coarse image at t2
-#  IN_C2_NAME = F:\\Testdata\\Daxing\\M-2019-8-17.tif
-#  IN_C2_NAME = F:\\Testdata\\AHB\\M_2018-5-12_4bands.tif 
-  IN_C2_NAME = F:\\Testdata\\Tianjin\\M-2018-12-4_4bands.tif 
-
+#  IN_C2_NAME = D:\\Testdata\\Daxing\\M-2019-8-17.tif
 
 # The classified image for the fine image at t1
-#  IN_F1_CLASS_NAME = F:\\Testdata\\Daxing\\class_daxing
-#  IN_F1_CLASS_NAME = F:\\Testdata\\AHB\\class_AHB
-  IN_F1_CLASS_NAME = F:\\Testdata\\Tianjin\\class_Tianjin
-
-
+#  IN_F1_CLASS_NAME = D:\\Testdata\\Daxing\\class_daxing
 
 # Window's size for searching similar pixels
  W = 20
@@ -55,4 +42,4 @@ cuFSDAF_PARAMETER_START
 # Power of distance in IDW, recommend 1-3
  IDW_POWER = 2
 
-cuFSDAF_PARAMETER_END
+cuFSDAF_PARAMETER_END 

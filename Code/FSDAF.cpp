@@ -77,10 +77,10 @@ int parseParameters(char *fname, parameter* par)
 		memset(buffer, 0, 1000);
 		if (fgets(buffer, 1000, in) == NULL)
 			continue;
-		if (strcmp(buffer, "cuFSDAF_PARAMETER_END") == 0)
-			break;
 		tokenptr = strtok(buffer, separator);
 		label = tokenptr;
+		if (strcmp(label, "cuFSDAF_PARAMETER_END") == 0)
+			break;
 		if (strcmp(label, "#") == 0) continue;
 		while (tokenptr != NULL)
 		{
@@ -144,7 +144,7 @@ int readImgSize(char InputF1[], size_t &ns, size_t &nl, size_t &nb)
 	GDALDataset *ImgBef = (GDALDataset*)GDALOpen(InputF1, GA_ReadOnly);
 	if (ImgBef == NULL)
 	{
-		printf("load error! The file name \" %s \" may be wrong.\n", InputF1[]);
+		printf("load error! The file name \" %s \" may be wrong.\n", InputF1);
 		exit(0);
 	}
 	ns = ImgBef->GetRasterXSize();			//samples of each line

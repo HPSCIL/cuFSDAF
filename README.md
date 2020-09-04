@@ -41,25 +41,27 @@ Compilation
   -	ALGLIB Library (https://www.alglib.net/) installed and tested
 
 + For the Windows operating system (using MS Visual Studio 2017 as an example)
-  1. Create a project that uses the CUDA runtime
-  2. Open all the source codes in VS 2017
-  3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and alglib (e.g., C:\GDAL\include\)
-  4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL and alglib (e.g., C:\GDAL\lib\)
-  5. Click menu Project -> Properties -> Link -> Input, and add .lib files of GDAL and alglib (e.g., C:\GDAL\lib\)
-  6. Click menu Build -> Build Solution  
+  1. Create a project that uses the CUDA runtime and named "cuFSDAF".
+  2. Copy source codes of cuFSDAF to the path of your project, and open all source codes in VS 2017. If you had not compiled ALGLIB, you could open source codes of ALGLIB together. We prepared source codes of ALGLIB 3.13.0 for convenience, but you may also add another ALGLIB version.
+  3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and ALGLIB (e.g., C:\GDAL\include\, .\alglib\\).
+  4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL (e.g., C:\GDAL\lib\). If you compiled ALGLIB, you may add your "lib" directory of ALGLIB as well (e.g., ./alglib\\).
+  5. Click menu Project -> Properties -> Link -> Input, and add ".lib" files of GDAL (e.g., gdal_i.lib) and ALGLIB (if you compiled it).
+  6. Click menu Build -> Build Solution.
   Once successfully compiled, an executable file, cuFSDAF.exe, is created.
-+ For the Linux/Unix operating system (using the CUDA compiler --- nvcc)  
-  In a Linux/Unix terminal, type in: 
+
++ For the Linux/Unix operating system (using the CUDA compiler --- nvcc) 
+  1. Compile a lib file using the source code of ALGLIB (named "libalglib.a"), and copy it to the directory of your source codes. If not, add name of all ".cpp" files of ALGLIB to the command line in step 2 and delete "-lalglib".  
+  2. In a Linux/Unix terminal, type in: 
   ```
   - $ cd /the-directory-of-your-source-codes/
-  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib
-  ```
-  If your compiler fail to find CUDA/GDAL/ALGLIB, you may add their include path and library path (e.g. /path-of-gdal).
-  ```
-  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib -L /path-of-gdal/lib -I /path-of-gdal/include
+  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib -L /path-of-gdal/lib -I /path-of-gdal/include -I /include-path-of-alglib
   ```
   Once successfully compiled, an executable file, cuFSDAF, is created.  
-  Note: You may compile alglib firstly if it has not been compiled. When compiling the alglib library, name the library file as "libalglib.a". If not, remember to modify "-lalglib" in the above command.
+
+Debug
+========
+1. "dataanalysis.h": No such file or directory  
+  "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling. 
 
 
 Usage 
@@ -74,16 +76,16 @@ Example (# for comments):
 >cuFSDAF_PARAMETER_START  
 >
 >\# The input fine image at t1  
-> IN_F1_NAME = F:\\Datasets\\Daxing_Test\\L-2019-6-14.tif  
+> IN_F1_NAME = D:\\Datasets\\Daxing\\L-2019-6-14.tif  
 >
 >\# The input coarse image at t1  
-> IN_C1_NAME = F:\\Datasets\\Daxing_Test\\M-2019-6-14.tif  
+> IN_C1_NAME = D:\\Datasets\\Daxing\\M-2019-6-14.tif  
 >
 >\# The input coarse image at t2  
-> IN_C2_NAME = F:\\Datasets\\Daxing_Test\\M-2019-8-17.tif  
+> IN_C2_NAME = D:\\Datasets\\Daxing\\M-2019-8-17.tif  
 >
 >\# The classified image for the fine image at t1  
-> IN_F1_CLASS_NAME = F:\\Datasets\\Daxing_Test\\class  
+> IN_F1_CLASS_NAME = D:\\Datasets\\Daxing\\class_Daxing  
 >
 >\# Window's size for searching similar pixels
 > W = 20
@@ -119,9 +121,9 @@ Example (# for comments):
 
 + The program runs as a command line. You may use the Command (i.e., cmd) in Windows, or a terminal in Linux/Unix. 
    - For the Windows version:    
-   $ cuFSDAF.exe parameters.txt 
+   $ .\cuFSDAF.exe Parameters.txt 
    - For the Linux/Unix version:   
-   $ ./cuFSDAF parameters.txt 
+   $ ./cuFSDAF Parameters.txt 
 
 + Note: The computational performance of cuFSDAF largely depends on the GPU. The more powerful is the GPU, the better performance. 
 
