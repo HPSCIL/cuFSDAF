@@ -44,7 +44,7 @@ Compilation
   1. Create a project that uses the CUDA runtime and named "cuFSDAF".
   2. Copy source codes of cuFSDAF to the path of your project, and open all source codes in VS 2017. If you had not compiled ALGLIB, you could open source codes of ALGLIB together. We prepared source codes of ALGLIB 3.13.0 for convenience, but you may also add another ALGLIB version.
   3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and ALGLIB (e.g., C:\GDAL\include\, .\alglib\\).
-  4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL (e.g., C:\GDAL\lib\). If you compiled ALGLIB, you may add your "lib" directory of ALGLIB as well (e.g., ./alglib\\).
+  4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL (e.g., C:\GDAL\lib\). If you compiled ALGLIB, you may add your "lib" directory of ALGLIB as well (e.g., .\alglib\\).
   5. Click menu Project -> Properties -> Link -> Input, and add ".lib" files of GDAL (e.g., gdal_i.lib) and ALGLIB (if you compiled it).
   6. Click menu Build -> Build Solution.
   Once successfully compiled, an executable file, cuFSDAF.exe, is created.
