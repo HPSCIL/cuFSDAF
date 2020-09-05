@@ -1,16 +1,16 @@
 cuFSDAF_PARAMETER_START
 
 # The input fine image at t1
-#  IN_F1_NAME = D:\\Testdata\\Daxing\\L-2019-6-14.tif
+  IN_F1_NAME = D:\\Testdata\\Daxing\\L-2019-6-14.tif
 
 # The input coarse image at t1
-#  IN_C1_NAME = D:\\Testdata\\Daxing\\M-2019-6-14.tif
+  IN_C1_NAME = D:\\Testdata\\Daxing\\M-2019-6-14.tif
 
 # The input coarse image at t2
-#  IN_C2_NAME = D:\\Testdata\\Daxing\\M-2019-8-17.tif
+  IN_C2_NAME = D:\\Testdata\\Daxing\\M-2019-8-17.tif
 
 # The classified image for the fine image at t1
-#  IN_F1_CLASS_NAME = D:\\Testdata\\Daxing\\class_daxing
+  IN_F1_CLASS_NAME = D:\\Testdata\\Daxing\\class_daxing
 
 # Window's size for searching similar pixels
  W = 20
