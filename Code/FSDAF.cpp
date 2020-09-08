@@ -86,7 +86,7 @@ int parseParameters(char *fname, parameter* par)
 		{
 			tokenptr = strtok(NULL, separator);
 			if (strcmp(label, "IN_F1_NAME") == 0)
-				sscanf_s(tokenptr, "%s", par->InputF1);
+				sscanf(tokenptr, "%s", par->InputF1);
 			else if (strcmp(label, "IN_C1_NAME") == 0)
 				sscanf(tokenptr, "%s", par->InputC1);
 			else if (strcmp(label, "IN_C2_NAME") == 0)
