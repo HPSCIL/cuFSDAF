@@ -9,7 +9,12 @@ int main(int argc, char* argv[])
 	/* Parameters setting */
 	parameter *p1 = new parameter[1];
 	parseParameters(argv[1], p1);
-	dim3 iDimGrid(256);			//Dimension of threads for CUDA
+	/************************************************************	
+	 Dimension of threads for CUDA, bigger number for better GPU.
+	 Recommended number: 128, 256, 512.
+	 If not sure, do not change it.
+	************************************************************/
+	dim3 iDimGrid(256);
 	dim3 iDimBlock(128);
 	p1->dimGrid = iDimGrid;
 	p1->dimBlock = iDimBlock;
