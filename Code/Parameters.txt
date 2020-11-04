@@ -36,8 +36,8 @@ cuFSDAF_PARAMETER_START
 # Which band with value = BACKGROUND indicating background pixels
  BACKGROUND_BAND = 1
 
-# Search radius for IDW interpolator, recommend at least 2*SCALE_FACTOR
- IDW_SEARCH_RADIUS = 32
+# Search radius for IDW interpolator, recommend 1*SCALE_FACTOR
+ IDW_SEARCH_RADIUS = 16
 
 # Power of distance in IDW, recommend 1-3
  IDW_POWER = 2
