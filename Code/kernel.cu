@@ -173,8 +173,7 @@ void cuIDW(int icycle, int nThread, int scale_factor, int background_band, int n
 					{
 						size_t iKnownPoint = _i + _j * ns_c;
 						double d = sqrt(pow((double)(col_c_D[iKnownPoint] - (int(i) % ns_block)), 2) + pow((double)(row_c_D[iKnownPoint] - (int(i) / ns_block)), 2));
-						d = rsqrt(d);
-
+						
 						if (abs(d) >= 1.0e-8)		//if sqrt((knownPoint[nKnownPointIndex].x - (i % ns_block))^2 + (y - yi)^2 ) <= IDWSearchRadius, ...
 						{
 							if (d <= IDWSearchRadius)
