@@ -6,7 +6,7 @@ Overview
 ========
 Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and thin plate spline (TPS) interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt landcover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. In addition, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects.  
 
-In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by a modified inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size.  
+In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size.  
 
 The experiments were conducted on a workstation computer equipped with an Intel Xeon W-2133 CPU @3.6GHz and a Nvidia GeForce GTX 1080ti GPU with 3,584 CUDA cores and 11 GB of video memory. Experiments showed that, while maintaining accuracy, cuFSDAF reduced computing time significantly and achieved speed-ups of 115.2–133.9 over the IDL-implemented FSDAF, and speed-ups of 75.5–81.8 over the C++-implemented FSDAF. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics. 
 
@@ -15,7 +15,7 @@ Key features of cuFSDAF:
 ========
 + Requires only one pair of Coarse-Fine images
 + Decomposes input images adaptively when the size of images exceeds the GPU’s memory
-+ Proposes a modified IDW interpolator for cuFSDAF
++ Proposes an accelerated IDW interpolator for cuFSDAF
 + Improves fusion accuracy at the edges of sub-domains
 + Supports a wide range of CUDA-enabled GPUs (https://developer.nvidia.com/cuda-gpus)
 + Supports a wide range of image formats (see http://gdal.org/formats_list.html)
