@@ -111,7 +111,7 @@ Example (# for comments):
 >\# Which band with value = BACKGROUND indicating background pixels  
 > BACKGROUND_BAND = 1  
 >
->\# Search radius for IDW interpolator 
+>\# Search radius for IDW interpolator  
 > IDW_SEARCH_RADIUS = 20  
 >
 >\# Power to calculate the weight of known points in IDW, if 2, Weight = 1/Distance^2  
