@@ -1,0 +1,22 @@
+ENVI
+description = {
+  ISODATA Classification Result [Fri Oct 16 12:52:01 2020]}
+samples = 2480
+lines   = 2480
+bands   = 1
+header offset = 0
+file type = ENVI Classification
+data type = 1
+interleave = bsq
+sensor type = Unknown
+classes = 9
+class lookup = {
+   0,   0,   0, 255,   0,   0,   0, 255,   0,   0,   0, 255, 255, 255,   0,
+   0, 255, 255, 255,   0, 255, 176,  48,  96,  46, 139,  87}
+class names = {
+ Unclassified, Class 1, Class 2, Class 3, Class 4, Class 5, Class 6, 
+ Class 7, Class 8}
+byte order = 0
+wavelength units = Unknown
+band names = {
+ ISODATA (L_2015-6-21.tif)}

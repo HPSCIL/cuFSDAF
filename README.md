@@ -4,11 +4,7 @@ Version 1.0
 
 Overview
 ========
-Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and thin plate spline (TPS) interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt landcover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. In addition, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects.  
-
-In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by a modified inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size.  
-
-The experiments were conducted on a workstation computer equipped with an Intel Xeon W-2133 CPU @3.6GHz and a Nvidia GeForce GTX 1080ti GPU with 3,584 CUDA cores and 11 GB of video memory. Experiments showed that, while maintaining accuracy, cuFSDAF reduced computing time significantly and achieved speed-ups of 115.2–133.9 over the IDL-implemented FSDAF, and speed-ups of 75.5–81.8 over the C++-implemented FSDAF. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics. 
+Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and spatial interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt land-cover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. Besides, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects. In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on the Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size. Experiments showed while obtaining similar accuracies to FSDAF and an up-to-date deep-learning-based method, cuFSDAF reduced the computing time significantly and achieved speed-ups of 140.3–182.2 over the original FSDAF program. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics.   
 
 
 Key features of cuFSDAF:
@@ -24,12 +20,15 @@ Key features of cuFSDAF:
 References
 ========
 + Zhu, X. et al., 2016. A flexible spatiotemporal method for fusing satellite images with different resolutions. Remote Sensing of Environment, 172: 165-177.  
++ Gao, H., Zhu, X., Guan, Q., Yang, X., Yao, Y., Zeng, W., Peng, X., 2021. cuFSDAF: An Enhanced Flexible Spatiotemporal Data Fusion Algorithm Parallelized Using Graphics Processing Units. IEEE Transactions on Geoscience and Remote Sensing. https://doi.org/10.1109/TGRS.2021.3080384  
+
 
 To Cite cuFSDAF in Publications
 ========
-+ A paper describing cuFSDAF will be submitted to a scientific journal for publication soon
-+ For now, you may just cite the URL of the source codes of cuFSDAF (https://github.com/HPSCIL/cuFSDAF) in your publications  
-+ You may contact the e-mail <ghcug14@cug.edu.cn> if you have further questions.
++ Gao, H., Zhu, X., Guan, Q., Yang, X., Yao, Y., Zeng, W., Peng, X., 2021. cuFSDAF: An Enhanced Flexible Spatiotemporal Data Fusion Algorithm Parallelized Using Graphics Processing Units. IEEE Transactions on Geoscience and Remote Sensing. https://doi.org/10.1109/TGRS.2021.3080384  
++ If you use the datasets we used here, please cite the ref. [80] in the paper we mentioned above.
++ You may contact the e-mail <ghcug14@cug.edu.cn> if you have further questions about the usage of codes and datasets.
++ For any possible research collaboration, please contact Prof. Qingfeng Guan <guanqf@cug.edu.cn>.  
 
 Compilation
 ========
@@ -76,16 +75,16 @@ Example (# for comments):
 >cuFSDAF_PARAMETER_START  
 >
 >\# The input fine image at t1  
-> IN_F1_NAME = D:\\Datasets\\Daxing\\L-2019-6-14.tif  
+> IN_F1_NAME = D:\\Datasets\\Daxing\\Landsat\\L-2018-12-4.tif  
 >
 >\# The input coarse image at t1  
-> IN_C1_NAME = D:\\Datasets\\Daxing\\M-2019-6-14.tif  
+> IN_C1_NAME = D:\\Datasets\\Daxing\\MODIS\\M-2018-12-4.tif  
 >
 >\# The input coarse image at t2  
-> IN_C2_NAME = D:\\Datasets\\Daxing\\M-2019-8-17.tif  
+> IN_C2_NAME = D:\\Datasets\\Daxing\\MODIS\\M-2018-10-1.tif  
 >
 >\# The classified image for the fine image at t1  
-> IN_F1_CLASS_NAME = D:\\Datasets\\Daxing\\class_Daxing  
+> IN_F1_CLASS_NAME = D:\\Datasets\\Daxing\\class_2018-12-4  
 >
 >\# Window's size for searching similar pixels
 > W = 20
@@ -111,7 +110,7 @@ Example (# for comments):
 >\# Which band with value = BACKGROUND indicating background pixels  
 > BACKGROUND_BAND = 1  
 >
->\# Search radius for IDW interpolator, recommend at least 2*SCALE_FACTOR  
+>\# Search radius for IDW interpolator, recommend 2*SCALE_FACTOR  
 > IDW_SEARCH_RADIUS = 32  
 >
 >\# Power to calculate the weight of known points in IDW, if 2, Weight = 1/Distance^2  
