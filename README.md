@@ -29,7 +29,7 @@ To Cite cuFSDAF in Publications
   Gao, H., Zhu, X., Guan, Q., Yang, X., Yao, Y., Zeng, W., Peng, X., 2021. cuFSDAF: An Enhanced Flexible Spatiotemporal Data Fusion Algorithm Parallelized Using Graphics Processing Units. IEEE Transactions on Geoscience and Remote Sensing. https://doi.org/10.1109/TGRS.2021.3080384  
 + If you use the datasets we used here, please cite the ref. [80] in the paper we mentioned above.
 + You may contact the e-mail <ghcug14@cug.edu.cn> if you have further questions about the usage of codes and datasets.
-+ For any possible research collaboration, please contact Prof. Qingfeng Guan <guanqf@cug.edu.cn>.  
++ For any possible research collaboration, please contact Prof. Qingfeng Guan (<guanqf@cug.edu.cn>).  
 
 Compilation
 ========
