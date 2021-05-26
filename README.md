@@ -4,16 +4,8 @@ Version 1.0
 
 Overview
 ========
-<<<<<<< HEAD
+
 Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and spatial interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt land-cover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. Besides, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects. In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on the Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size. Experiments showed while obtaining similar accuracies to FSDAF and an up-to-date deep-learning-based method, cuFSDAF reduced the computing time significantly and achieved speed-ups of 140.3–182.2 over the original FSDAF program. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics.   
-=======
-Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and thin plate spline (TPS) interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt landcover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. In addition, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects.  
-
-In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size.  
-
-The experiments were conducted on a workstation computer equipped with an Intel Xeon W-2133 CPU @3.6GHz and a Nvidia GeForce GTX 1080ti GPU with 3,584 CUDA cores and 11 GB of video memory. Experiments showed that, while maintaining accuracy, cuFSDAF reduced computing time significantly and achieved speed-ups of 115.2–133.9 over the IDL-implemented FSDAF, and speed-ups of 75.5–81.8 over the C++-implemented FSDAF. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics. 
->>>>>>> 319041e73cc0f80573ee11459d322757906c357b
-
 
 Key features of cuFSDAF:
 ========
@@ -118,13 +110,8 @@ Example (# for comments):
 >\# Which band with value = BACKGROUND indicating background pixels  
 > BACKGROUND_BAND = 1  
 >
-<<<<<<< HEAD
 >\# Search radius for IDW interpolator, recommend 2*SCALE_FACTOR  
 > IDW_SEARCH_RADIUS = 32  
-=======
->\# Search radius for IDW interpolator  
-> IDW_SEARCH_RADIUS = 20  
->>>>>>> 319041e73cc0f80573ee11459d322757906c357b
 >
 >\# Power to calculate the weight of known points in IDW, if 2, Weight = 1/Distance^2  
 > IDW_POWER = 2  
