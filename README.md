@@ -125,6 +125,7 @@ Example (# for comments):
    - For the Linux/Unix version:   
    $ ./cuFSDAF Parameters.txt 
 
++ The fused image will be saved in the path of your input coarse image at t1, named "xxx_cuFSDAF.tif".  
 + Note: The computational performance of cuFSDAF largely depends on the GPU. The more powerful is the GPU, the better performance. 
 
 
