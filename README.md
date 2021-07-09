@@ -1,6 +1,6 @@
 cuFSDAF
 ========
-Version 1.0
+Version 1.1
 
 Overview
 ========
@@ -63,6 +63,11 @@ Debug
 1. "dataanalysis.h": No such file or directory  
   "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling. 
 
+Update
+========
+1. 20210709: Update codes handling background values  
+	(1) Add a new parameter to point the images for masking fusion results  
+	(2) update the function for removing background values  
 
 Usage 
 ========
@@ -106,7 +111,10 @@ Example (# for comments):
 > SCALE_FACTOR = 16
 >
 >\# The value of background pixels  
-> BACKGROUND = 0  
+> BACKGROUND = 0.0  
+>
+>\# Which image including background area (0: IN_F1, 1: IN_C1, 2: IN_C2, default: 0)
+> BACKGROUND_IMG = 0
 >
 >\# Which band with value = BACKGROUND indicating background pixels  
 > BACKGROUND_BAND = 1  

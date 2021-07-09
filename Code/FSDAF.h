@@ -8,17 +8,18 @@ struct parameter
 	char InputC1[200];
 	char InputC2[200];
 	char InputClass[200];
-	size_t w = 20;								//window's size for searching similar pixels
-	size_t num_similar_pixel = 20;				//number of choosen pixels in final calculation
-	size_t num_pure = 100;						//number of most purest coarse pixels in each class selected fro change calculation
-	float DN_min = 0.0;							//set the range of DN(Digital Number) value of the image, If byte, 0 and 255
+	size_t w = 20;								// window's size for searching similar pixels
+	size_t num_similar_pixel = 20;				// number of choosen pixels in final calculation
+	size_t num_pure = 100;						// number of most purest coarse pixels in each class selected fro change calculation
+	float DN_min = 0.0;							// set the range of DN(Digital Number) value of the image, If byte, 0 and 255
 	float DN_max = 10000.0;
-	size_t scale_factor = 16;					//one coarse resolution has scale_factor * scale_factor fine resolutions
-	int background = 0;							//value of background pixels. 0 means that pixels will be considered as background if one of its bands = 0
-	size_t background_band = 1;					//which band with value = background indicating background pixels.
+	float background = 0.0;						// value of background pixels. 0 means that pixels will be considered as background if one of its bands = 0
+	size_t scale_factor = 16;					// one coarse resolution has scale_factor * scale_factor fine resolutions
+	size_t background_img = 0;					// which image including background area (0: IN_F1, 1: IN_C1, 2: IN_C2, default: 0)
+	size_t background_band = 1;					// which band with value = background indicating background pixels.
 
-	size_t IDWSearchRadius = 2 * scale_factor;	//search radius for IDW
-	int IDWPower = 2;							//power of distance in IDW
+	size_t IDWSearchRadius = 2 * scale_factor;	// search radius for IDW
+	int IDWPower = 2;							// power of distance in IDW
 
 	dim3 dimGrid;
 	dim3 dimBlock;

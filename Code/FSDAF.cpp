@@ -6,6 +6,9 @@
 #include "ogr_spatialref.h"
 #include "dataanalysis.h"
 
+#include <iostream>
+using namespace std;
+
 #include "FSDAF.h"
 
 
@@ -106,7 +109,9 @@ int parseParameters(char *fname, parameter* par)
 			else if (strcmp(label, "SCALE_FACTOR") == 0)
 				par->scale_factor = atoi(tokenptr);
 			else if (strcmp(label, "BACKGROUND") == 0)
-				par->background = atoi(tokenptr);
+				par->background = atof(tokenptr);
+			else if (strcmp(label, "BACKGROUND_IMG") == 0)
+				par->background_img = atoi(tokenptr);
 			else if (strcmp(label, "BACKGROUND_BAND") == 0)
 				par->background_band = atoi(tokenptr);
 			else if (strcmp(label, "IDW_SEARCH_RADIUS") == 0)
@@ -127,9 +132,7 @@ double stddev(double *dif, int a_size)
 	double result = 0;
 	double totaldev = 0;
 	for (int i = 0; i < a_size; i++)
-	{
 		totaldif += dif[i];
-	}
 	for (int i = 0; i < a_size; i++)
 		totaldev += pow((dif[i] - totaldif / double(a_size - 1)), 2);
 	result = sqrt(totaldev / double(a_size));
@@ -283,14 +286,14 @@ int writeImg(char InputC2[], short* Img)
 	return 0;
 }
 
-/* remove background values */
-int imgNoback(int ns, int nl, int nb, int background_band, int background, float* Img)
+/* remove background values based on background band */
+int imgNoback(int ns, int nl, int nb, int background_band, float background, float* Img)
 {
 	std::vector <int> _background_whole(ns * nl, 0);
 	int _num_back = 0;
 	for (int i = 0; i < ns * nl; i++)
 	{
-		if (Img[i + ns * nl * (background_band - 1)] == background)
+		if (abs(Img[i + ns * nl * (background_band - 1)] - background) <= 1.0e-8)
 		{
 			_background_whole[i] = 1;
 			_num_back++;
@@ -305,11 +308,40 @@ int imgNoback(int ns, int nl, int nb, int background_band, int background, float
 				if (_background_whole[i] == 0)
 					count += Img[i + ns * nl * iband];
 			for (int i = 0; i < ns * nl; i++)
-			{
 				if (_background_whole[i] == 1)
 					Img[i + ns * nl * iband] = count / (ns * nl - _num_back);
+		}
+	}
+	return 0;
+}
+
+/* remove background values in full image */
+int imgNoback1(int ns, int nl, int nb, float background, float* Img)
+{
+	for (int iband = 0; iband < nb; iband++)
+	{
+		std::vector <int> _background_whole(ns * nl, 0);
+		int _num_back = 0;
+		for (int i = 0; i < ns * nl; i++)
+		{
+			if (abs(Img[i + ns * nl * iband] - background) <= 1.0e-8)
+			{
+				_background_whole[i] = 1;
+				_num_back++;
 			}
 		}
+		if (_num_back > 0)
+		{
+			double count = 0;
+			for (int i = 0; i < ns * nl; i++)
+				if (_background_whole[i] == 0)
+					count += Img[i + ns * nl * iband];
+			for (int i = 0; i < ns * nl; i++)
+				if (_background_whole[i] == 1)
+					Img[i + ns * nl * iband] = count / (ns * nl - _num_back);
+		}
+
+
 	}
 	return 0;
 }
@@ -549,7 +581,7 @@ int readBlockImage(parameter* p1, int iblock, int &num_class, int location_block
 				printf("\nERROR: The parameter \"background band\" may be bigger than the number of bands, Please check your input.\n");
 				exit(0);
 			}
-			if (L1_class_block[_i] == iclass + 1 && fineImg1_block[nGlbIdx] != p1->background)
+			if ( (L1_class_block[_i] == iclass + 1) && (abs(fineImg1_block[nGlbIdx] - p1->background) >= 1.0e-8) )
 			{
 				ind_ic.push_back(_i);
 				num_ic++;
@@ -890,7 +922,7 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 {
 	int w = p1->w;
 	int num_pure = p1->num_pure;
-	int background = p1->background;
+	float background = p1->background;
 	int background_band = p1->background_band;
 	int num_similar_pixel = p1->num_similar_pixel;
 	float DN_max = p1->DN_max;
@@ -930,7 +962,6 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 			size_t J2 = std::min((jc + 1) * p1->scale_factor, (size_t)nl_block);
 			size_t Count_total_rc = (I2 - I1) * (J2 - J1);
 
-
 			for (size_t i = I1; i < I2; i++)
 			{
 				for (size_t j = J1; j < J2; j++)
@@ -945,7 +976,6 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 					}
 				}
 			}
-
 
 			row_c[ic + jc * ns_c] = total_row / Count_total_rc;
 			col_c[ic + jc * ns_c] = total_col / Count_total_rc;
@@ -980,9 +1010,7 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 	//step4: prediction without considering spatial change
 	std::vector<double> L2_1(ns_block * nl_block * nb, 0);
 	for (int i = 0; i < ns_block * nl_block * nb; i++)
-	{
 		L2_1[i] = fineImg1_block[i];
-	}
 	for (int i = 0; i < ns_block * nl_block; i++)
 		for (int ic = 0; ic < num_class; ic++)
 			if (ic + 1 == L1_class[i])
@@ -1005,12 +1033,8 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 				size_t count_temp = (I2 - I1) * (J2 - J1);
 
 				for (int k = I1; k < I2; k++)
-				{
 					for (int l = J1; l < J2; l++)
-					{
 						total_temp += L2_1[k + l * ns_block + ib * ns_block * nl_block];
-					}
-				}
 				coarse_c2_p[i_ns + i_nl * ns_c + ib * ns_c * nl_c] = total_temp / count_temp;
 			}
 		}
@@ -1024,24 +1048,16 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 		for (int i = 0; i < ns_c * nl_c; i++)
 		{
 			if (coarse_c2[i + ib * ns_c * nl_c] < min_allow0)
-			{
 				min_allow0 = coarse_c2[i + ib * ns_c * nl_c];
-			}
 			if (coarse_c2[i + ib * ns_c * nl_c] > max_allow0)
-			{
 				max_allow0 = coarse_c2[i + ib * ns_c * nl_c];
-			}
 		}
 		for (int i = 0; i < ns_block * nl_block; i++)
 		{
 			if (L2_1[i + ib * ns_block * nl_block] < min_allow0)
-			{
 				min_allow0 = L2_1[i + ib * ns_block * nl_block];
-			}
 			if (L2_1[i + ib * ns_block * nl_block] > max_allow0)
-			{
 				max_allow0 = L2_1[i + ib * ns_block * nl_block];
-			}
 		}
 		if (min_allow0 < DN_min)
 			min_allow_c2[ib] = DN_min;
@@ -1061,6 +1077,7 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 		if (abs(L2_IDW[i] - 0) <= 1.0e-8)
 		{
 			printf("Some pixels cannot search neighboring pixels in IDW.\nUse larger IDWSearchRadius or check input images.\n");
+			printf("i: %d\t Band: %d\t Index: [%d, %d].\n", i, i / (ns_block * nl_block), i % ns_block, (i % (ns_block * nl_block) / ns_block));
 			return -1;
 		}
 
@@ -1072,27 +1089,19 @@ int getChange_21(float * change_21_block, int ns_block, int nl_block, int nb, pa
 	//second prediction from TPS 
 	std::vector<float> fine2_2(ns_block * nl_block * nb, 0);
 	for (int i = 0; i < ns_block * nl_block * nb; i++)
-	{
 		fine2_2[i] = L2_1[i] + change_21_block[i];
-	}
 	for (int ib = 0; ib < nb; ib++)
 	{
 		for (int i = 0; i < ns_block * nl_block; i++)
 		{
 			if (fine2_2[i + ib * ns_block * nl_block] < min_allow_c2[ib])
-			{
 				fine2_2[i + ib * ns_block * nl_block] = min_allow_c2[ib];
-			}
 			if (fine2_2[i + ib * ns_block * nl_block] > max_allow_c2[ib])
-			{
 				fine2_2[i + ib * ns_block * nl_block] = max_allow_c2[ib];
-			}
 		}
 	}
 	for (int i = 0; i < ns_block * nl_block * nb; i++)
-	{
 		change_21_block[i] = fine2_2[i] - fineImg1_block[i];
-	}
 
 	delete[] row_c;
 	delete[] col_c;
@@ -1147,9 +1156,7 @@ int getSimilarTh(int iblock, int ns_block, int nl_block, int scale_factor, int n
 				int nBlkIdx = i + j * ns_block;
 				int nSubIdx = i - location_sub_neighbor1[0] + (j - location_sub_neighbor1[2]) * ns_sub;
 				for (size_t k = 0; k < nb; k++)
-				{
 					fineImg1_sub[nSubIdx + k * ns_sub * nl_sub] = fineImg1_block[nBlkIdx + k * ns_block * nl_block];
-				}
 			}
 		}
 		for (size_t i_nb = 0; i_nb < nb; i_nb++)
@@ -1177,6 +1184,46 @@ int getSimilarTh(int iblock, int ns_block, int nl_block, int scale_factor, int n
 	return 0;
 }
 
+/* Mask final images using the background band in one image (0, 1, 2: F1, C1, C2) */
+int getBackgArea(int ns, int nl, int nb, int iBackgImg, int background_band, float background, float* F1, float* C1, float* C2, unsigned char* BackgArea)
+{
+	float * Img = NULL;
+	switch (iBackgImg)
+	{
+	case 0:
+		Img = F1;
+		break;
+	case 1:
+		Img = C1;
+		break;
+	case 2:
+		Img = C2;
+		break;
+	default:
+		break;
+	}
+	std::vector <int> _background_whole(ns * nl, 0);
+	int _num_back = 0;
+	for (int i = 0; i < ns * nl; i++)
+	{
+		if (abs(Img[i + ns * nl * (background_band - 1)] - background) <= 1.0e-8)
+		{
+			BackgArea[i] = 1;
+		}
+	}
+	return 0;
+}
+
+
+int finalImgMask(int ns, int nl, int nb, unsigned char* BackgArea, float* Img)
+{
+	for (int iband = 0; iband < nb; iband++)
+		for (int i = 0; i < ns * nl; i++)
+			if (BackgArea[i] == 1)
+				Img[i + ns * nl * iband] = 0;
+	return 0;
+}
+
 /* Compute in each sub-domain */
 int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 	int* location_block, int location_block_neighbor[4], float* fineImg2_block)
@@ -1192,10 +1239,22 @@ int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 	int num_class = 0;
 	readBlockImage(p1, iblock, num_class, location_block_neighbor, fineImg1_block, coarseImg1_block, coarseImg2_block, L1_class_block);
 	printf("\nPlease confirm the data is read correctly:\n");
-	printf("fineImg1[0] = %f  coarseImg1[0] = %f  coarseImg2[0] = %f  L1_class[0] = %d num_class = %d\n", fineImg1_block[0], coarseImg1_block[0], coarseImg2_block[0], L1_class_block[0], num_class);
+	printf("fineImg1[0] = %.3f  coarseImg1[0] = %.3f  coarseImg2[0] = %.3f  L1_class[0] = %d num_class = %d\n", fineImg1_block[0], coarseImg1_block[0], coarseImg2_block[0], L1_class_block[0], num_class);
 
-	/* Replace background values by average values */
-	imgNoback(ns_block, nl_block, nb, p1->background_band, p1->background, fineImg1_block);
+	///* Replace background values by average values */
+	//imgNoback(ns_block, nl_block, nb, p1->background_band, p1->background, fineImg1_block);
+	//imgNoback(ns_block, nl_block, nb, p1->background_band, p1->background, coarseImg1_block);
+	//imgNoback(ns_block, nl_block, nb, p1->background_band, p1->background, coarseImg2_block);
+	
+	// get background locations
+	unsigned char* ucharBackgArea = new unsigned char[ns_block * nl_block]();
+	getBackgArea(ns_block, nl_block, nb, p1->background_img, p1->background_band, p1->background, fineImg1_block, coarseImg1_block, coarseImg2_block, ucharBackgArea);
+
+
+	// Replace all background vals in every band by average values
+	imgNoback1(ns_block, nl_block, nb, p1->background, fineImg1_block);
+	imgNoback1(ns_block, nl_block, nb, p1->background, coarseImg1_block);
+	imgNoback1(ns_block, nl_block, nb, p1->background, coarseImg2_block);
 	
 	/* Correct extreme values */
 	extremeCorrect(ns_block, nl_block, nb, p1->DN_min, p1->DN_max, fineImg1_block);
@@ -1214,6 +1273,10 @@ int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 	cuFinalCalculation(p1, fineImg2_block, fineImg1_block, coarseImg1_block, coarseImg2_block, change_21_block, D_D_all, similar_th,
 		ns_block, nl_block, nb);
 
+	/* Masking F2 using backg area */
+	finalImgMask(ns_block, nl_block, nb, ucharBackgArea, fineImg2_block);
+
+
 	delete[] fineImg1_block;
 	delete[] coarseImg1_block;
 	delete[] coarseImg2_block;
@@ -1221,6 +1284,8 @@ int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 	delete[] change_21_block;
 	delete[] D_D_all;
 	delete[] similar_th;
+	delete[] ucharBackgArea;
+	
 	fineImg1_block = NULL;
 	coarseImg1_block = NULL;
 	coarseImg2_block = NULL;
@@ -1228,8 +1293,7 @@ int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 	change_21_block = NULL;
 	D_D_all = NULL;
 	similar_th = NULL;
+	ucharBackgArea = NULL;
 
 	return 0;
 }
-
-

@@ -1,7 +1,22 @@
+/**************************************************************************
+* cuFSDAF v1.1
+* Author:		Huan Gao
+* E-mail:		ghcug14@cug.edu.cn
+* update date:2021/07/09
+* Update history:
+  1. 20210709 Update codes handling background values
+	(1) Add a new parameter to point the images for masking fusion results
+	(2) update the function for removing background values
+***************************************************************************
+* NOTE: this algorithm can ONLY be used for EDUCATIONAL and SCIENTIFIC
+* purposes, NO COMMERCIAL usages are allowed unless the author is
+* contacted and a permission is granted
+***************************************************************************/
+
+
 #include <stdio.h>
 #include <string>
 #include <time.h> 
-
 #include "FSDAF.h"
 
 int main(int argc, char* argv[])
@@ -14,7 +29,7 @@ int main(int argc, char* argv[])
 	 Recommended number: 128, 256, 512.
 	 If not sure, do not change it.
 	************************************************************/
-	dim3 iDimGrid(256);
+	dim3 iDimGrid(512);
 	dim3 iDimBlock(128);
 	p1->dimGrid = iDimGrid;
 	p1->dimBlock = iDimBlock;
@@ -54,10 +69,8 @@ int main(int argc, char* argv[])
 		fineImg2_block = NULL;
 	}
 
-
 	/* Result output */
 	writeImg(p1->InputC2, fineImg2);
-
 
 	delete[] location_block;
 	delete[] fineImg2;

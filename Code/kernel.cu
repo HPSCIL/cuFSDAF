@@ -148,6 +148,7 @@ void cuIDW(int icycle, int nThread, int scale_factor, int background_band, int n
 	if (iThread < nThread)
 	{
 		size_t i = iThread + icycle * nThread;
+
 		if (i < ns_block * nl_block)
 		{
 			for (size_t ib = 0; ib < nb; ib++)
