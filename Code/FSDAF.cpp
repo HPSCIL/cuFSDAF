@@ -1215,12 +1215,12 @@ int getBackgArea(int ns, int nl, int nb, int iBackgImg, int background_band, flo
 }
 
 
-int finalImgMask(int ns, int nl, int nb, unsigned char* BackgArea, float* Img)
+int finalImgMask(int ns, int nl, int nb, float fBackgVal, unsigned char* BackgArea, float* Img)
 {
 	for (int iband = 0; iband < nb; iband++)
 		for (int i = 0; i < ns * nl; i++)
 			if (BackgArea[i] == 1)
-				Img[i + ns * nl * iband] = 0;
+				Img[i + ns * nl * iband] = fBackgVal;
 	return 0;
 }
 
@@ -1274,7 +1274,7 @@ int blockComputing(parameter* p1, int ns, int nl, int nb, int iblock,
 		ns_block, nl_block, nb);
 
 	/* Masking F2 using backg area */
-	finalImgMask(ns_block, nl_block, nb, ucharBackgArea, fineImg2_block);
+	finalImgMask(ns_block, nl_block, nb, p1->background, ucharBackgArea, fineImg2_block);
 
 
 	delete[] fineImg1_block;
