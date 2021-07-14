@@ -113,7 +113,7 @@ Example (# for comments):
 >\# The value of background pixels  
 > BACKGROUND = 0.0  
 >
->\# Which image including background area (0: IN_F1, 1: IN_C1, 2: IN_C2, default: 0)
+>\# Which image including background area (0: IN_F1, 1: IN_C1, 2: IN_C2, default: 0)  
 > BACKGROUND_IMG = 0
 >
 >\# Which band with value = BACKGROUND indicating background pixels  
