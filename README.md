@@ -50,11 +50,11 @@ Compilation
   Once successfully compiled, an executable file, cuFSDAF.exe, is created.
 
 + For the Linux/Unix operating system (using the CUDA compiler --- nvcc) 
-  1. Compile a lib file using the source code of ALGLIB (named "libalglib.a"), and copy it to the directory of your source codes. If not, add name of all ".cpp" files of ALGLIB to the command line in step 2 and delete "-lalglib".  
+  1. Compile a lib file using the source code of ALGLIB (named "libalglib.a"). If not, add name of all ".cpp" files of ALGLIB to the command line in step 2 and delete "-lalglib -L /path-of-libalglib".  
   2. In a Linux/Unix terminal, type in: 
   ```
   - $ cd /the-directory-of-your-source-codes/
-  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -lalglib -L /path-of-gdal/lib -I /path-of-gdal/include -I /include-path-of-alglib
+  - $ nvcc -std=c++11 -o cuFSDAF main.cpp FSDAF.cpp kernel.cu -lgdal -L /path-of-gdal/lib -lalglib -L /path-of-libalglib -I /path-of-gdal/include -I /include-path-of-alglib
   ```
   Once successfully compiled, an executable file, cuFSDAF, is created.  
 
