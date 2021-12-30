@@ -92,7 +92,7 @@ Example (# for comments):
 >\# The classified image for the fine image at t1  
 > IN_F1_CLASS_NAME = D:\\Datasets\\Daxing\\class_2018-12-4  
 >
->\# Window's size for searching similar pixels
+>\# Window's size for searching similar pixels  
 > W = 20
 >
 >\# Number of similar pixels for mitigating errors using neighborhood  
