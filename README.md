@@ -5,7 +5,7 @@ Version 1.1
 Overview
 ========
 
-Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and spatial interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt land-cover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. Besides, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects. In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems, and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on the Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains, and to enable GPUs with varying computing capacities to deal with datasets of any size. Experiments showed while obtaining similar accuracies to FSDAF and an up-to-date deep-learning-based method, cuFSDAF reduced the computing time significantly and achieved speed-ups of 140.3–182.2 over the original FSDAF program. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics.   
+Spatiotemporal data fusion is a cost-effective way to produce remote sensing images with high spatial and temporal resolutions using multi-source images. Using spectral unmixing analysis and spatial interpolation, the Flexible Spatiotemporal DAta Fusion (FSDAF) algorithm is suitable for heterogeneous landscapes and capable of capturing abrupt land-cover changes. However, the extensive computational complexity of FSDAF prevents its use in large-scale applications and mass production. Besides, the domain decomposition strategy of FSDAF causes accuracy loss at the edges of sub-domains due to the insufficient consideration of edge effects. In this study, an enhanced FSDAF (cuFSDAF) is proposed to address these problems and includes three main improvements: (1) The TPS interpolator is replaced by an accelerated inverse distance weighted interpolator to reduce computational complexity. (2) The algorithm is parallelized based on the Compute Unified Device Architecture (CUDA), a widely used parallel computing framework for graphics processing units (GPUs). (3) An adaptive domain decomposition method is proposed to improve the fusion accuracy at the edges of sub-domains and to enable GPUs with varying computing capacities to deal with datasets of any size. Experiments showed while obtaining similar accuracies to FSDAF and an up-to-date deep-learning-based method, cuFSDAF reduced the computing time significantly and achieved speed-ups of 140.3–182.2 over the original FSDAF program. cuFSDAF is capable of efficiently producing fused images with both high spatial and temporal resolutions to support applications for large-scale and long-term land surface dynamics.   
 
 Key features of cuFSDAF:
 ========
@@ -41,7 +41,7 @@ Compilation
   -	ALGLIB Library (https://www.alglib.net/) installed and tested
 
 + For the Windows operating system (using MS Visual Studio 2017 as an example)
-  1. Create a project that uses the CUDA runtime and named "cuFSDAF".
+  1. Create a project that uses the CUDA runtime and is named "cuFSDAF".
   2. Copy source codes of cuFSDAF to the path of your project, and open all source codes in VS 2017. If you had not compiled ALGLIB, you could open source codes of ALGLIB together. We prepared source codes of ALGLIB 3.13.0 for convenience, but you may also add another ALGLIB version.
   3. Click menu Project -> Properties -> VC++ Directories -> Include Directories, and add the “include” directory of GDAL and ALGLIB (e.g., C:\GDAL\include\, .\alglib\\).
   4. Click menu Project -> Properties -> VC++ Directories -> Lib Directories, and add the “lib” directory of GDAL (e.g., C:\GDAL\lib\). If you compiled ALGLIB, you may add your "lib" directory of ALGLIB as well (e.g., .\alglib\\).
@@ -61,7 +61,8 @@ Compilation
 Debug
 ========
 1. "dataanalysis.h": No such file or directory  
-  "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling. 
+  "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling.
+PS: If face compilation issues with ALGLIB, check the closed issues on the GitHub project for possible help.
 
 Update
 ========
@@ -75,7 +76,7 @@ Usage
   - the same spatial resolution (i.e., Landsat resolution --- 30m)
   - the same image size (i.e., numbers of rows and columns)
   - the same map projection
-+ A text file must be manually created to specify input images, and other parameters for the cuFSDAF model.  
++ A text file must be manually created to specify input images and other parameters for the cuFSDAF model.  
 Example (# for comments):
 
 >cuFSDAF_PARAMETER_START  
@@ -101,10 +102,10 @@ Example (# for comments):
 >\# Number of purest coarse pixels in each class for unmixing analysis  
 > NUM_PURE = 100  
 >
->\# Minimum of Digital Number (DN) value, used for correcting exterme values  
+>\# Minimum of Digital Number (DN) value, used for correcting extreme values  
 > DN_MIN = 0.0
 >
->\# Maximum of Digital Number (DN) value, used for correcting exterme values  
+>\# Maximum of Digital Number (DN) value, used for correcting extreme values  
 > DN_MAX = 10000.0  
 >
 >\# The scale factor, it is integer=coarse resolution/fine resolution, e.g., 480/30=16    
@@ -134,6 +135,6 @@ Example (# for comments):
    $ ./cuFSDAF Parameters.txt 
 
 + The fused image will be saved in the path of your input coarse image at t2, named "xxx_cuFSDAF.tif".  
-+ Note: The computational performance of cuFSDAF largely depends on the GPU. The more powerful is the GPU, the better performance. 
++ Note: The computational performance of cuFSDAF largely depends on the GPU. The more powerful the GPU, the better performance. 
 
 
