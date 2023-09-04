@@ -61,7 +61,8 @@ Compilation
 Debug
 ========
 1. "dataanalysis.h": No such file or directory  
-  "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling. 
+  "dataanalysis.h" is a head file of ALGLIB, remember to add the include path of ALGLIB when compiling.  
+
 PS: If face compilation issues with ALGLIB, check the closed issues on the GitHub project for possible help.
 
 Update
